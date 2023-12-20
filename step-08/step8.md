@@ -1,5 +1,7 @@
 # Step 8 - Linus Practice Commands
 
+Implementation Screenshots
+
 ```sh
 sudo
 ```

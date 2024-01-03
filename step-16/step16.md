@@ -18,6 +18,7 @@ else
 fi
 
 ```
+
 ![Control Flow](./img/01-control-flow.png)
 
 ## Loops
@@ -121,7 +122,6 @@ View full example code in [./shell-scripting/02-navigating-linux-filesystem.sh](
 ## Sorting
 
 The example shows sorting file contents alphabetically in Bash using sort and output redirection. It creates sample files, sorts them, removes the originals, renames the sorted file, and outputs the result. Sorting is a common task automated in shell scripts.
-
 
 View full example code in [./shell-scripting/03-sorting.sh](shell-scripting/03-sorting.sh)
 

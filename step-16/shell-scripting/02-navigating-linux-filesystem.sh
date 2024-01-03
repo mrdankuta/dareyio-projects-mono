@@ -4,11 +4,11 @@
 echo "Current directory: $(pwd)"
 
 # Create new directory
-mkdir new-directory
+mkdir source-directory
 ls
 
 # Change directory
-cd new-directory
+cd source-directory
 echo "We're now in: $(pwd)"
 
 # Create new files

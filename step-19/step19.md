@@ -1,5 +1,23 @@
 # Step 19 - Implementing Loadbalancers with Nginx
 
+## Introduction
+
+This project demonstrates how to set up a simple load balancer using Nginx to distribute traffic across multiple backend servers. The goal is to build a highly available and scalable web application architecture.
+
+The project involves provisioning two Ubuntu servers running Apache to serve as the backend application servers. These are configured to listen on port 8000.
+
+A third Ubuntu server running Nginx is then provisioned to act as the load balancer. The Nginx server is configured to listen on port 80 and proxy traffic to the two backend servers in a round robin fashion.
+
+Some key aspects of the project include:
+
+- Setting up the backend Apache servers with custom index pages
+- Configuring Nginx as a reverse proxy to distribute requests
+- Defining backend server groups in Nginx for load balancing
+- Testing Nginx configuration and restarting to apply changes
+- Verifying load distribution by refreshing the load balancer IP
+
+This provides a straightforward implementation of using Nginx as a load balancer for web applications. The result is a highly available architecture that can handle more traffic by scaling horizontally.
+
 ## What is a loadbalancer?
 
 A load balancer is a device or software that distributes network traffic across multiple servers. The goal is to optimize resource use, maximize throughput, minimize response time, and avoid overload on any one server.
@@ -33,6 +51,7 @@ sudo apt update -y &&  sudo apt install apache2 -y
 ```bash
 sudo systemctl status apache2
 ```
+
 ![Apache2 Running](./img/04-apacheCheck.png)
 
 - Configure Apache to listen on port `8000` by editing the file `/etc/apache2/ports.conf`:
@@ -46,6 +65,7 @@ sudo vi /etc/apache2/ports.conf
 ```bash
 Listen 8000
 ```
+
 ![ApacheListen](./img/05-apacheListen.png)
 
 - Open `/etc/apache2/sites-available/000-default.conf` and change port 80 to 8000 on the `<virtualHost *:80>` section:
@@ -53,6 +73,7 @@ Listen 8000
 ```bash
 sudo vi /etc/apache2/sites-available/000-default.conf
 ```
+
 ![Apache Default Port](./img/06-apacheDefaultPort.png)
 
 - Save and close the file by pressing `esc` key and entering the following command:
@@ -121,6 +142,7 @@ sudo apt update -y &&  sudo apt install nginx -y
 ```bash
 sudo systemctl status nginx
 ```
+
 ![Nginx Running](./img/10-nginxRunning.png)
 
 - Open Nginx configuration file by running:
@@ -152,6 +174,7 @@ server {
     }
 }
 ```
+
 ![Nginx Config](./img/11-nginxLBConfig.png)
 
 > The purpose of this Nginx configuration file is to set up the Nginx server as a load balancer that will distribute incoming requests across two backend web servers.
@@ -181,6 +204,7 @@ server {
 ```bash
 sudo nginx -t
 ```
+
 ![Nginx Config Test](./img/12-nginxTest.png)
 
 - Restart Nginx to apply the changes, if the test is successful:

@@ -17,8 +17,11 @@ Nginx is lightweight, fast, and very configurable, making it a popular choice fo
 ## Provisioning & configuring the target servers
 
 - Provision 2 servers running Ubuntu 22.04
+![Target Servers](./img/01-target-servers.png)
 - Attach an SSH key to each of the servers
+![Add SSH](./img/02-ssh-add.png)
 - Open ports `8000` for inbound traffic on both servers
+![Firewall for Target Servers](./img/03-firewall-target.png)
 - Install Apache webserver on both servers. On each server, run the following commands:
 
 ```bash
@@ -30,6 +33,7 @@ sudo apt update -y &&  sudo apt install apache2 -y
 ```bash
 sudo systemctl status apache2
 ```
+![Apache2 Running](./img/04-apacheCheck.png)
 
 - Configure Apache to listen on port `8000` by editing the file `/etc/apache2/ports.conf`:
 
@@ -42,12 +46,14 @@ sudo vi /etc/apache2/ports.conf
 ```bash
 Listen 8000
 ```
+![ApacheListen](./img/05-apacheListen.png)
 
 - Open `/etc/apache2/sites-available/000-default.conf` and change port 80 to 8000 on the `<virtualHost *:80>` section:
 
 ```bash
 sudo vi /etc/apache2/sites-available/000-default.conf
 ```
+![Apache Default Port](./img/06-apacheDefaultPort.png)
 
 - Save and close the file by pressing `esc` key and entering the following command:
 
@@ -95,12 +101,15 @@ sudo systemctl restart apache2
 ```
 
 - Open the `PUBLIC_IP:8000` of each target server in a browser and verify that the page is displayed correctly
+![Testing Target Server](./img/07-targetTest1.png)
 
 ## Provisioning & configuring the Nginx loadbalancer
 
 - Provision a third server running Ubuntu 22.04
+![Provision LB Server](./img/08-nginxLB.png)
 - Attach an SSH key to the third server
 - Ensure port `80` is open for inbound traffic on the third server
+![Open Port 80](./img/09-nginxFW.png)
 - Install Nginx on the third server by running:
 
 ```bash
@@ -112,6 +121,7 @@ sudo apt update -y &&  sudo apt install nginx -y
 ```bash
 sudo systemctl status nginx
 ```
+![Nginx Running](./img/10-nginxRunning.png)
 
 - Open Nginx configuration file by running:
 
@@ -142,6 +152,7 @@ server {
     }
 }
 ```
+![Nginx Config](./img/11-nginxLBConfig.png)
 
 > The purpose of this Nginx configuration file is to set up the Nginx server as a load balancer that will distribute incoming requests across two backend web servers.
 >
@@ -170,6 +181,7 @@ server {
 ```bash
 sudo nginx -t
 ```
+![Nginx Config Test](./img/12-nginxTest.png)
 
 - Restart Nginx to apply the changes, if the test is successful:
 
@@ -178,3 +190,4 @@ sudo systemctl restart nginx
 ```
 
 - Open the `LB_SERVER_PUBLIC_IP` in a browser and verify that the page is displayed correctly. Refresh the page multiple times to verify that the load balancer is distributing the requests across the two web servers.
+![Load Balancer Working](./img/13-LBWorking.gif)

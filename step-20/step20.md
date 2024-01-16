@@ -1,6 +1,6 @@
 # Step 20 - Automating the Implementation of Loadbalancers with Nginx using Shell Scripts
 
-> *This is a continuation of the previous step, [Step 19 - Implementing Loadbalancers with Nginx](https://github.com/)*
+> *This is a continuation of the previous step, [Step 19 - Implementing Loadbalancers with Nginx](https://github.com/mrdankuta/dareyio-projects-mono/blob/main/step-19/step19.md)*
 
 ## Introduction
 

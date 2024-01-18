@@ -44,23 +44,20 @@ if [[ $? -eq 0 ]]; then # If nginx installed successfully
     # Set permissions on nginx directory
     sudo chmod 777 -R /etc/nginx/
 
-    
-    echo " upstream backend_servers { # Define upstream block for backend servers
+    # Define upstream block for backend servers
+    echo " upstream backend_servers {
+                server  "${firstWebserver}"; # public IP and port for webserser 1 
+                server "${secondWebserver}"; # public IP and port for webserver 2
+            }
 
-            # your are to replace the public IP and Port to that of your webservers
-            server  "${firstWebserver}"; # public IP and port for webserser 1 
-            server "${secondWebserver}"; # public IP and port for webserver 2
+            server {
+                listen 80; # Listen on port 80
+                server_name "${PUBLIC_IP}"; # Set server name to Public IP
 
-            } # Close upstream block
-
-            server { # Open main server block
-            listen 80; # Listen on port 80
-            server_name "${PUBLIC_IP}"; # Set server name to Public IP
-
-            location / { # Location block to handle all requests
-                proxy_pass http://backend_servers; # Proxy requests to backend servers  
-            } 
-    } " > /etc/nginx/conf.d/loadbalancer.conf # Save config file
+                location / {
+                    proxy_pass http://backend_servers; # Proxy requests to backend servers  
+                } 
+            } " > /etc/nginx/conf.d/loadbalancer.conf # Save config file
 fi 
 
 # Test nginx config
@@ -68,4 +65,19 @@ sudo nginx -t
 
 # Restart nginx
 sudo systemctl restart nginx
+
+
+upstream backend_servers {
+    server ${firstWebserver}; # public IP and port for webserver 1
+    server ${secondWebserver}; # public IP and port for webserver 2  
+}
+
+server {
+    listen 80; 
+    server_name ${PUBLIC_IP};
+
+    location / {
+        proxy_pass http://backend_servers;
+    }
+}
 
